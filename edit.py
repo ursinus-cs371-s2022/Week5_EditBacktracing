@@ -1,5 +1,9 @@
 import numpy as np
 
+LEFT = 0
+UP = 1
+DIAG = 2
+
 def edit(s1, s2):
     """
     An iterative, dynamic programming version of the string
@@ -36,9 +40,9 @@ def edit(s1, s2):
             moves[i].append([])
     # Fill in the base cases
     for j in range(N+1):
-        moves[0][j] = 1 # Move left if we're at the top row
+        moves[0][j] = [0] # Move left if we're at the top row
     for i in range(M+1):
-        moves[i][0] = 2 # Move up if we're at the left column
+        moves[i][0] = [1] # Move up if we're at the left column
     
     # Do the dynamic programming to fill in the table and moves
     for i in range(1, M+1):
@@ -49,19 +53,25 @@ def edit(s1, s2):
             if s1[i-1] != s2[j-1]:
                 cost3 += 1
             table[i][j] = min(cost1, cost2, cost3)
-            moves[i][j] = np.argmin(np.array([cost1, cost2, cost3]))+1
-    cost = int(table[-1, -1])
-
+            if table[i][j] == cost1:
+                moves[i][j].append(LEFT)
+            if table[i][j] == cost2:
+                moves[i][j].append(UP)
+            if table[i][j] == cost3:
+                moves[i][j].append(DIAG)
+    
+    print(moves)
+    """
     ## TODO: Extract an optimal sequence of moves.
     ## Backtrace from i = M, j = N, following the arrows, until you get to [0, 0]
     i = M
     j = N
     path = []
     while not (i == 0 and j == 0):
-        if moves[i][j] == 1:
+        if moves[i][j] == LEFT:
             path.append("Adding {} to s1".format(s2[j-1]))
             j -= 1
-        elif moves[i][j] == 2:
+        elif moves[i][j] == UP:
             path.append("Deleting {} from s1".format(s1[i-1]))
             i -= 1
         else:
@@ -75,5 +85,6 @@ def edit(s1, s2):
     for step in path:
         print(step)
     return cost
+    """
 
 edit("school", "fools")

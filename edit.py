@@ -33,11 +33,11 @@ def edit(s1, s2):
     for i in range(M+1):
         moves.append([])
         for j in range(N+1):
-            moves[i].append([0])
+            moves[i].append([])
     # Fill in the base cases
-    for j in range(N):
+    for j in range(N+1):
         moves[0][j] = 1 # Move left if we're at the top row
-    for i in range(M):
+    for i in range(M+1):
         moves[i][0] = 2 # Move up if we're at the left column
     
     # Do the dynamic programming to fill in the table and moves
@@ -54,7 +54,26 @@ def edit(s1, s2):
 
     ## TODO: Extract an optimal sequence of moves.
     ## Backtrace from i = M, j = N, following the arrows, until you get to [0, 0]
-
+    i = M
+    j = N
+    path = []
+    while not (i == 0 and j == 0):
+        if moves[i][j] == 1:
+            path.append("Adding {} to s1".format(s2[j-1]))
+            j -= 1
+        elif moves[i][j] == 2:
+            path.append("Deleting {} from s1".format(s1[i-1]))
+            i -= 1
+        else:
+            if s1[i-1] != s2[j-1]:
+                path.append("Swapping in {} for {} in s1".format(s2[j-1], s1[i-1]))
+            else:
+                path.append("Matching {}".format(s2[j-1]))
+            i -= 1
+            j -= 1
+    path.reverse()
+    for step in path:
+        print(step)
     return cost
 
-print("Cost = ", edit("school", "fools"))
+edit("school", "fools")

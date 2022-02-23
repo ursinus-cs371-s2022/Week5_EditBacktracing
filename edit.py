@@ -20,7 +20,7 @@ def backtrace(s1, s2, moves, path, solution = []):
     path: list of [i, j]
         A stack holding the path being recursively built
     solution: list of string
-        A verbal description of the solution
+        A verbal description of the solution that's parallel to the path
     """
     [i, j] = path[-1]
     if i == 0 and j == 0:

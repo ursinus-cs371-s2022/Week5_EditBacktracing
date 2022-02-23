@@ -34,10 +34,10 @@ def backtrace(s1, s2, moves, path, solution = []):
             jnew = j
             if move == LEFT:
                 jnew -= 1
-                solution.append("Adding {} to s1 (+1)".format(s2[jnew]))
+                solution.append("Adding {} to s1 (+1)".format(s2[j-1]))
             elif move == UP:
                 inew -= 1
-                solution.append("Deleting {} from s1 (+1)".format(s1[inew]))
+                solution.append("Deleting {} from s1 (+1)".format(s1[i-1]))
             else:
                 inew -= 1
                 jnew -= 1
